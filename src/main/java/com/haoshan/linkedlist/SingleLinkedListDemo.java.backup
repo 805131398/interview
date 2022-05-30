@@ -1,0 +1,150 @@
+package com.haoshan.linkedlist;
+
+import lombok.Data;
+
+/**
+ * 单链接列表
+ *
+ * @author zhanghao
+ */
+public class SingleLinkedListDemo {
+    public static void main(String[] args) {
+        // 定义一个单向链表集合
+        SingleLinkedList linkedList = new SingleLinkedList();
+        HeroNode a1 = new HeroNode(1, "1", "及时雨");
+        HeroNode a2 = new HeroNode(2, "2", "玉麒麟");
+        HeroNode a3 = new HeroNode(3, "3", "大老虎");
+        HeroNode a4 = new HeroNode(4, "4", "奥特曼");
+        HeroNode a5 = new HeroNode(5, "5", "奥特曼");
+        HeroNode a6 = new HeroNode(6, "6", "奥特曼");
+        HeroNode a7 = new HeroNode(7, "7", "奥特曼");
+        HeroNode a8 = new HeroNode(8, "8", "奥特曼");
+        HeroNode a9 = new HeroNode(9, "9", "奥特曼");
+        HeroNode a10 = new HeroNode(10, "10", "奥特曼");
+
+
+        linkedList.addByOrder(a7);
+        linkedList.addByOrder(a8);
+        linkedList.addByOrder(a9);
+        linkedList.addByOrder(a10);
+        linkedList.addByOrder(a4);
+        linkedList.addByOrder(a1);
+        linkedList.addByOrder(a1);
+        linkedList.addByOrder(a3);
+        linkedList.addByOrder(a3);
+        linkedList.addByOrder(a3);
+        linkedList.addByOrder(a2);
+        linkedList.addByOrder(a6);
+
+        linkedList.list();
+    }
+}
+
+/**
+ * SingleLinkedList
+ * 定义单向链表的 List 来管理水浒英雄
+ */
+class SingleLinkedList {
+    /**
+     * 先初始化一个节点头
+     * 后续新增的第一个节点放到该节点的 next 属性中
+     */
+    private final HeroNode head = new HeroNode(0);
+
+
+    /**
+     * 创建一个添加节点的方法
+     * 思路,不考虑英雄编号的顺序时
+     * 1.找到当前链表的最后节点
+     * 2.将最后这个节点的 next 指向新的节点
+     */
+    public void add(HeroNode nextNode) {
+        HeroNode temp = head;
+        while (temp.next != null) {
+            // 如果等于空, 那就说明到了链表的最后一个节点
+            temp = temp.next;
+        }
+        temp.setNext(nextNode);
+    }
+
+    /**
+     * 按照 no 给链表进行排序
+     */
+    public void addByOrder(HeroNode nextNode) {
+        // temp 当前节点
+        HeroNode temp = head;
+        //        判断是否相同
+        boolean flag = false;
+        // 如果等于空, 那就说明到了链表的最后一个节点
+        while (temp.next != null) {
+            // 临时节点的 no
+            int tempNo = temp.getNo();
+            // 要插入的节点的 no
+            int nextNo = nextNode.getNo();
+            // 判断两个节点的 no 是否相同
+            if (tempNo == nextNo) {
+                flag = true;
+                break;
+            }
+            // 判断链表中当前节点的下个节点和即将要插入的节点的 no 大小
+            if (temp.next.getNo() > nextNo) {
+                // 下个节点大于要插入的节点就说明,要插入的节点在下个节点的前面
+                // 因为用的是对象的 next 的 getNo 进行判断的,所以 temp 对象不用做其他操作
+                break;
+            }
+            temp = temp.next;
+        }
+        if (flag) {
+            System.out.println("排名已存在" + nextNode);
+            return;
+        }
+        HeroNode rear = temp.getNext();
+        nextNode.setNext(rear);
+        temp.setNext(nextNode);
+    }
+
+    /**
+     * 遍历链表
+     */
+    public void list() {
+        HeroNode next = head.next;
+        if (next == null) {
+            System.out.println("该链表中没有元素");
+            return;
+        }
+        while (next != null) {
+            System.out.println(next);
+            next = next.next;
+        }
+    }
+}
+
+/**
+ * 定义一个 HeroNode ,每个 heroNode 对象就是一个节点
+ */
+@Data
+class HeroNode {
+    public int no;
+    public String name;
+    public String nikeName;
+    public HeroNode next;
+
+    public HeroNode(int no, String name, String nikeName) {
+        this.no = no;
+        this.name = name;
+        this.nikeName = nikeName;
+    }
+
+    public HeroNode(int no) {
+        this.no = no;
+    }
+
+    @Override
+    public String toString() {
+        return "HeroNode{" +
+                "no=" + no +
+                ", name='" + name + '\'' +
+                ", nikeName='" + nikeName + '\'' +
+                '}';
+    }
+}
