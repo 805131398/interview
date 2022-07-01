@@ -24,7 +24,7 @@ public class CircleArrayQueueDemo {
             System.out.println("s(show): 显示队列");
             System.out.println("a(add): 添加数据到队列");
             System.out.println("g(get): 从队列中获取数据");
-            System.out.println("h(hea): 查看队列头的数据");
+            System.out.println("h(head): 查看队列头的数据");
             System.out.println("e(exit): 退出程序");
             input = scanner.next().charAt(0);
             switch (input) {
